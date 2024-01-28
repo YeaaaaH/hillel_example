@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class AccountService {
     public List<Account> findExceedingBalance(List<Account> accounts, double balance) {
         return accounts.stream()
-                .filter(account -> account.balance() > balance)
+                .filter(account -> account.getBalance() > balance)
                 .toList();
     }
 
@@ -21,24 +21,24 @@ public class AccountService {
             throw new IllegalArgumentException("Wrong size");
         }
         return accounts.stream()
-                .map(Account::country)
+                .map(Account::getCountry)
                 .collect(Collectors.toSet());
     }
 
     public static boolean hasYoungerThan(List<Account> accounts, int date) {
         return accounts.stream()
-                .anyMatch(account -> account.birthday().getYear() > date);
+                .anyMatch(account -> account.getBirthday().getYear() > date);
     }
 
     public static double findSumBalanceByGender(List<Account> accounts) {
         return accounts.stream()
-                .filter(account -> Gender.MALE.equals(account.gender()))
-                .mapToDouble(Account::balance)
+                .filter(account -> Gender.MALE.equals(account.getGender()))
+                .mapToDouble(Account::getBalance)
                 .sum();
     }
 
     public static Map<Integer, List<Account>> groupByMonth(List<Account> accounts) {
         return accounts.stream()
-                .collect(Collectors.groupingBy(account -> account.birthday().getMonthValue()));
+                .collect(Collectors.groupingBy(account -> account.getBirthday().getMonthValue()));
     }
 }

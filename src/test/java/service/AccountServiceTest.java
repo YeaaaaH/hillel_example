@@ -9,7 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AccountServiceTest {
     static AccountService accountService;
@@ -31,7 +33,7 @@ public class AccountServiceTest {
                         "Usa",
                         LocalDate.of(1900, 01, 01),
                         Gender.MALE,
-                        6999.2));
+                        8000.0));
         accountList.add(new Account(
                 "First",
                 "Name",
@@ -45,7 +47,7 @@ public class AccountServiceTest {
         // then
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(8000.0, result.get(0).balance());
+        assertEquals(8000.0, result.get(0).getBalance());
     }
     @Test
     public void expectedExceptionTest() {
