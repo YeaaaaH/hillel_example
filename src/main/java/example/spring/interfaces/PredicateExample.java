@@ -1,4 +1,4 @@
-package interfaces;
+package example.spring.interfaces;
 
 @FunctionalInterface
 public interface PredicateExample<T> {

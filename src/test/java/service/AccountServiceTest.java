@@ -1,7 +1,8 @@
 package service;
 
-import main.java.model.Account;
-import main.java.model.enums.Gender;
+import example.spring.model.Account;
+import example.spring.model.enums.Gender;
+import example.spring.service.AccountService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -31,14 +32,12 @@ public class AccountServiceTest {
                         "Antony",
                         "Hopkins",
                         "Usa",
-                        LocalDate.of(1900, 01, 01),
                         Gender.MALE,
                         8000.0));
         accountList.add(new Account(
                 "First",
                 "Name",
                 "Germany",
-                LocalDate.of(1844, 12,12),
                 Gender.FEMALE,
                 6000.0));
         double exeedingValue = 7000.0;
@@ -55,11 +54,11 @@ public class AccountServiceTest {
         List<Account> accountList = new ArrayList<>();
         accountList.add(
                 new Account(
-                        "Antony","Hopkins", "Usa", LocalDate.of(1900, 01, 01),
+                        "Antony","Hopkins", "Usa",
                         Gender.MALE,
                         6999.2));
         accountList.add(new Account(
-                "First","Name", "Germany", LocalDate.of(1844, 12,12),
+                "First","Name", "Germany",
                 Gender.FEMALE,
                 6000.0));
         double exeedingValue = 7000.0;

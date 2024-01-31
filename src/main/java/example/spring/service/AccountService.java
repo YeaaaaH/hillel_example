@@ -1,13 +1,15 @@
-package service;
+package example.spring.service;
 
-import main.java.model.Account;
-import main.java.model.enums.Gender;
+import example.spring.model.Account;
+import example.spring.model.enums.Gender;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 public class AccountService {
     public List<Account> findExceedingBalance(List<Account> accounts, double balance) {
         return accounts.stream()
@@ -25,20 +27,20 @@ public class AccountService {
                 .collect(Collectors.toSet());
     }
 
-    public static boolean hasYoungerThan(List<Account> accounts, int date) {
-        return accounts.stream()
-                .anyMatch(account -> account.getBirthday().getYear() > date);
-    }
+//    public boolean hasYoungerThan(List<Account> accounts, int date) {
+//        return accounts.stream()
+//                .anyMatch(account -> account.getYear() > date);
+//    }
 
-    public static double findSumBalanceByGender(List<Account> accounts) {
+    public double findSumBalanceByGender(List<Account> accounts) {
         return accounts.stream()
                 .filter(account -> Gender.MALE.equals(account.getGender()))
                 .mapToDouble(Account::getBalance)
                 .sum();
     }
 
-    public static Map<Integer, List<Account>> groupByMonth(List<Account> accounts) {
-        return accounts.stream()
-                .collect(Collectors.groupingBy(account -> account.getBirthday().getMonthValue()));
-    }
+//    public Map<Integer, List<Account>> groupByMonth(List<Account> accounts) {
+//        return accounts.stream()
+//                .collect(Collectors.groupingBy(account -> account.getMonthValue()));
+//    }
 }
