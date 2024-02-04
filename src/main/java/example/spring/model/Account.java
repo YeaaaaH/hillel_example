@@ -9,6 +9,7 @@ import java.util.Objects;
 @Data
 @RequiredArgsConstructor
 public class Account {
+    private Long id;
     private String firstName;
     private String lastName;
     private String country;
@@ -16,7 +17,8 @@ public class Account {
     private Gender gender;
     private Double balance;
 
-    public Account(String firstName, String lastName, String country, Gender gender, Double balance) {
+    public Account(Long id, String firstName, String lastName, String country, Gender gender, Double balance) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;

@@ -1,7 +1,9 @@
 package example.spring.service;
 
+import example.spring.exception.AccountNotFoundException;
 import example.spring.model.Account;
 import example.spring.model.enums.Gender;
+import example.spring.repository.AccountsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
+
+    private AccountsRepository accountsRepository;
+
+    public AccountService(AccountsRepository accountsRepository) {
+        this.accountsRepository = accountsRepository;
+    }
+
+    public Account getAccountById(Long id) {
+        return accountsRepository.getAccountById(id).orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
+    }
     public List<Account> findExceedingBalance(List<Account> accounts, double balance) {
         return accounts.stream()
                 .filter(account -> account.getBalance() > balance)
