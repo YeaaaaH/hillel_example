@@ -1,26 +1,39 @@
 package example.spring.repository;
 
 import example.spring.model.Account;
-import example.spring.model.enums.Gender;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class AccountsRepository {
 
-    private List<Account> accountList;
+    private final SessionFactory sessionFactory;
 
-    public AccountsRepository() {
-        this.accountList = Collections.emptyList();
+    public AccountsRepository(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
-
     public Optional<Account> getAccountById(long id) {
-        return accountList.stream()
-                .filter(account -> account.getId().equals(id))
-                .findAny();
+        Session session = sessionFactory.openSession();
+        Account account = session.get(Account.class, id);
+        session.close();
+        return Optional.ofNullable(account);
+    }
+
+    public Long createAccount(Account account) {
+        try (Session session = sessionFactory.openSession()) {
+            return (Long) session.save(account);
+        }
+    }
+
+    public void deleteAccountById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Account account = session.load(Account.class, id);
+            session.delete(account);
+            session.flush();
+        }
     }
 }

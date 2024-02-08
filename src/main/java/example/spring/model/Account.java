@@ -4,16 +4,27 @@ import example.spring.model.enums.Gender;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @Data
 @RequiredArgsConstructor
+@Entity
+@Table(name = "accounts", schema = "management")
 public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
     private String country;
 //    private LocalDate birthday;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private Double balance;
 
