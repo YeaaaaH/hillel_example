@@ -2,8 +2,11 @@ package example.spring.service;
 
 import example.spring.exception.AccountNotFoundException;
 import example.spring.model.Account;
+import example.spring.model.Payment;
 import example.spring.repository.AccountsRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -19,8 +22,13 @@ public class AccountService {
                 .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
     }
 
-    public Long createAccount(Account account) {
-        return accountsRepository.createAccount(account);
+    public List<Payment> getPaymentsByAccountId(Long id) {
+        return accountsRepository.getPaymentsByAccountId(id)
+                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
+    }
+
+    public void createAccount(Account account) {
+        accountsRepository.createAccount(account);
     }
 
     public void deleteAccountById(Long id) {

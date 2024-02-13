@@ -1,6 +1,7 @@
 package example.spring.controller;
 
 import example.spring.model.Account;
+import example.spring.model.Payment;
 import example.spring.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,21 @@ public class AccountRestController {
     }
 
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Account getAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id);
     }
 
+    @RequestMapping(value = "/{id}/payments", method = RequestMethod.GET)
+    public ResponseEntity<List<Payment>> getPaymentsByAccountById(@PathVariable Long id) {
+        List<Payment> payments = accountService.getPaymentsByAccountId(id);
+        return new ResponseEntity<>(payments, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Long> createAccount(@RequestBody Account account) {
-        Long result = accountService.createAccount(account);
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        accountService.createAccount(account);
+        return new ResponseEntity<>(1l, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "{id}")

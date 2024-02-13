@@ -1,24 +1,24 @@
 package example.spring.model;
 
 import example.spring.model.enums.Gender;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+//@ToString(exclude = "accountDetails")
+//@EqualsAndHashCode(exclude = "accountDetails")
+@Builder
 @Table(name = "accounts", schema = "management")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
     private Long id;
     private String firstName;
     private String lastName;
@@ -28,12 +28,12 @@ public class Account {
     private Gender gender;
     private Double balance;
 
-    public Account(Long id, String firstName, String lastName, String country, Gender gender, Double balance) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.country = country;
-        this.gender = gender;
-        this.balance = balance;
-    }
+//    @OneToOne(mappedBy = "account")
+//    private AccountDetails accountDetails;
+//    @OneToMany(mappedBy = "account")
+//    private List<Payment> payments;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="account_id")
+    private List<Payment> payments;
 }
