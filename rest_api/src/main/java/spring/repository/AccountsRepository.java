@@ -2,7 +2,6 @@ package spring.repository;
 
 import spring.model.Account;
 import spring.model.Payment;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -21,17 +20,17 @@ public class AccountsRepository {
 
     public Optional<Account> getAccountById(long id) {
         Account account;
-        try(Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
             account = session.get(Account.class, id);
-            Hibernate.initialize(account.getPayments());
+            session.getTransaction().commit();
         }
-
         return Optional.ofNullable(account);
     }
 
     public Optional<List<Payment>> getPaymentsByAccountId(long id) {
         Account account;
-        try(Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             account = session.get(Account.class, id);
             List<Payment> payments = account.getPayments();
             return Optional.ofNullable(payments);

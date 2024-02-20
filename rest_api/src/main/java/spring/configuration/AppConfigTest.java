@@ -4,40 +4,26 @@ package spring.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import spring.filters.ExampleFilter;
-import spring.interceptors.ExampleInterceptor;
 
-import javax.servlet.Filter;
 import javax.sql.DataSource;
-import java.util.Date;
 import java.util.Properties;
 
 @Configuration
 @ComponentScan(value = "spring")
 @EnableWebMvc
-@PropertySource("classpath:db.properties")
-public class AppConfig implements WebMvcConfigurer {
+public class AppConfigTest {
 
     private Environment environment;
 
-    public AppConfig(Environment environment) {
+    public AppConfigTest(Environment environment) {
         this.environment = environment;
     }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ExampleInterceptor()).addPathPatterns("/**");
-    }
-
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -49,12 +35,10 @@ public class AppConfig implements WebMvcConfigurer {
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.default_schema",  environment.getRequiredProperty("hibernate.default_schema"));
-        properties.put("hibernate.hbm2ddl.auto",  environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.put("hibernate.hbm2ddl.auto",  "create");
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-//        properties.put("hibernate.allow_update_outside_transaction", environment.getRequiredProperty("hibernate.allow_update_outside_transaction"));
         return properties;
     }
 
@@ -62,19 +46,14 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
-        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
-        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-        return dataSource;
+        return new EmbeddedDatabaseBuilder()
+                .generateUniqueName(false)
+                .setName("testdb")
+                .setType(EmbeddedDatabaseType.H2)
+                .setScriptEncoding("UTF-8")
+                .ignoreFailedDrops(true)
+                .build();
     }
-
-//    @Bean
-//    public ExampleFilter exampleFilter() {
-//        ExampleFilter exampleFilter = new ExampleFilter();
-//        return exampleFilter;
-//    }
 
     @Bean
     public HibernateTransactionManager getTransactionManager() {
