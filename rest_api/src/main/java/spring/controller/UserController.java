@@ -6,38 +6,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import spring.exception.UserNotFoundException;
 import spring.model.User;
 import spring.model.dto.UserDTO;
-import spring.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import spring.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping(value = "/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userRepository.getUserById(id).orElseThrow(() -> new UserNotFoundException("User with id: " + id + " not found"));
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllPayments() {
-        return new ResponseEntity<>(userRepository.getAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Long> createUser(@RequestBody UserDTO userDTO) {
-        Long user = userRepository.createUser(userDTO);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<Long> createUser(@Valid @RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userService.saveUser(userDTO), HttpStatus.CREATED);
     }
 }

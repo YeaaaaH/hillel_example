@@ -6,9 +6,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,6 +27,8 @@ import java.util.Properties;
 @ComponentScan(value = "spring")
 @EnableWebMvc
 @PropertySource("classpath:db.properties")
+@EnableJpaRepositories(value = "spring")
+@EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
 
     private Environment environment;
@@ -39,7 +43,7 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
+    public LocalSessionFactoryBean entityManagerFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
@@ -58,8 +62,6 @@ public class AppConfig implements WebMvcConfigurer {
         return properties;
     }
 
-
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -70,16 +72,10 @@ public class AppConfig implements WebMvcConfigurer {
         return dataSource;
     }
 
-//    @Bean
-//    public ExampleFilter exampleFilter() {
-//        ExampleFilter exampleFilter = new ExampleFilter();
-//        return exampleFilter;
-//    }
-
     @Bean
-    public HibernateTransactionManager getTransactionManager() {
+    public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory().getObject());
+        transactionManager.setSessionFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
 //    @Bean

@@ -1,37 +1,46 @@
 package spring.service;
 
-import spring.exception.AccountNotFoundException;
 import spring.model.Account;
-import spring.model.Payment;
+import spring.model.User;
+import spring.model.dto.AccountDTO;
 import spring.repository.AccountsRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import spring.repository.UserRepository;
 
 @Service
 public class AccountService {
 
     private AccountsRepository accountsRepository;
+    private UserService userService;
 
-    public AccountService(AccountsRepository accountsRepository) {
+    public AccountService(AccountsRepository accountsRepository, UserService userService) {
         this.accountsRepository = accountsRepository;
+        this.userService = userService;
     }
 
-    public Account getAccountById(Long id) {
-        return accountsRepository.getAccountById(id)
-                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
+//    public Account getAccountById(Long id) {
+//        return accountsRepository.getAccountById(id)
+//                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
+//    }
+
+//    public List<Payment> getPaymentsByAccountId(Long id) {
+//        return accountsRepository.getPaymentsByAccountId(id)
+//                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
+//    }
+
+    public Long createAccount(AccountDTO accountDTO) {
+        Account account = new Account();
+        account.setBalance(accountDTO.getBalance());
+        account.setCountry(accountDTO.getCountry());
+        account.setFirstName(accountDTO.getFirstName());
+        account.setLastName(accountDTO.getLastName());
+        account.setGender(accountDTO.getGender());
+        User user = userService.findUserById(accountDTO.getUserId());
+        account.setUser(user);
+        return accountsRepository.save(account).getId();
     }
 
-    public List<Payment> getPaymentsByAccountId(Long id) {
-        return accountsRepository.getPaymentsByAccountId(id)
-                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
-    }
-
-    public void createAccount(Account account) {
-        accountsRepository.createAccount(account);
-    }
-
-    public void deleteAccountById(Long id) {
-        accountsRepository.deleteAccountById(id);
-    }
+//    public void deleteAccountById(Long id) {
+//        accountsRepository.deleteAccountById(id);
+//    }
 }
