@@ -23,7 +23,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class AppConfigTest {
 
-    private Environment environment;
+    private final Environment environment;
 
     public AppConfigTest(Environment environment) {
         this.environment = environment;
@@ -46,8 +46,6 @@ public class AppConfigTest {
         return properties;
     }
 
-
-
     @Bean
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
@@ -65,6 +63,7 @@ public class AppConfigTest {
         transactionManager.setSessionFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
+
 //    @Bean
 //    public SpringLiquibase liquibase()  {
 //        SpringLiquibase liquibase = new SpringLiquibase();

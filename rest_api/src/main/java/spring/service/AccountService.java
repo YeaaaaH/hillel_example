@@ -1,11 +1,11 @@
 package spring.service;
 
+import spring.exception.AccountNotFoundException;
 import spring.model.Account;
 import spring.model.User;
 import spring.model.dto.AccountDTO;
 import spring.repository.AccountsRepository;
 import org.springframework.stereotype.Service;
-import spring.repository.UserRepository;
 
 @Service
 public class AccountService {
@@ -18,10 +18,12 @@ public class AccountService {
         this.userService = userService;
     }
 
-//    public Account getAccountById(Long id) {
-//        return accountsRepository.getAccountById(id)
-//                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
-//    }
+    public Account getAccountById(Long id) {
+        return accountsRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFoundException("account with id:" + id + "not found"));
+    }
+
+//TODO check how to use entity graph here
 
 //    public List<Payment> getPaymentsByAccountId(Long id) {
 //        return accountsRepository.getPaymentsByAccountId(id)
@@ -40,7 +42,7 @@ public class AccountService {
         return accountsRepository.save(account).getId();
     }
 
-//    public void deleteAccountById(Long id) {
-//        accountsRepository.deleteAccountById(id);
-//    }
+    public void deleteAccountById(Long id) {
+        accountsRepository.deleteById(id);
+    }
 }

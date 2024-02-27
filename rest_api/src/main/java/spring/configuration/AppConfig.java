@@ -31,7 +31,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
 
-    private Environment environment;
+    private final Environment environment;
 
     public AppConfig(Environment environment) {
         this.environment = environment;
@@ -58,7 +58,6 @@ public class AppConfig implements WebMvcConfigurer {
         properties.put("hibernate.hbm2ddl.auto",  environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
-//        properties.put("hibernate.allow_update_outside_transaction", environment.getRequiredProperty("hibernate.allow_update_outside_transaction"));
         return properties;
     }
 
@@ -78,6 +77,7 @@ public class AppConfig implements WebMvcConfigurer {
         transactionManager.setSessionFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
+
 //    @Bean
 //    public SpringLiquibase liquibase()  {
 //        SpringLiquibase liquibase = new SpringLiquibase();
