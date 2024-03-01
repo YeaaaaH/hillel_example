@@ -1,6 +1,6 @@
 package spring.configuration;
 
-//import liquibase.integration.spring.SpringLiquibase;
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,16 +11,12 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import spring.filters.ExampleFilter;
 import spring.interceptors.ExampleInterceptor;
 
-import javax.servlet.Filter;
 import javax.sql.DataSource;
-import java.util.Date;
 import java.util.Properties;
 
 @Configuration
@@ -78,13 +74,12 @@ public class AppConfig implements WebMvcConfigurer {
         return transactionManager;
     }
 
-//    @Bean
-//    public SpringLiquibase liquibase()  {
-//        SpringLiquibase liquibase = new SpringLiquibase();
-//        Date date = new Date();
-//        liquibase.setDataSource(dataSource());
-//        liquibase.setDefaultSchema(environment.getRequiredProperty("hibernate.default_schema"));
-//        liquibase.setChangeLog("db.changelog/changelog.xml");
-//        return liquibase;
-//    }
+    @Bean
+    public SpringLiquibase liquibase()  {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setDataSource(dataSource());
+        liquibase.setDefaultSchema(environment.getRequiredProperty("hibernate.default_schema"));
+        liquibase.setChangeLog("db.changelog/changelog.xml");
+        return liquibase;
+    }
 }

@@ -34,9 +34,4 @@ public class UserController {
     public ResponseEntity<List<User>> getAllPayments() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
-
-    @PostMapping
-    public ResponseEntity<Long> createUser(@Valid @RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(userService.saveUser(userDTO), HttpStatus.CREATED);
-    }
 }

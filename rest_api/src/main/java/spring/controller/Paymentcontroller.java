@@ -25,6 +25,6 @@ public class Paymentcontroller {
 
     @GetMapping
     public ResponseEntity<List<Payment>> getAllPayments() {
-        return new ResponseEntity<>(paymentRepository.getAllPayments(), HttpStatus.CREATED);
+        return new ResponseEntity<>(paymentRepository.findAll(), HttpStatus.CREATED);
     }
 }

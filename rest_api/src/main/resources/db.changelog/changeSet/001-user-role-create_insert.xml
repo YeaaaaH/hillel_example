@@ -71,7 +71,7 @@
     <changeSet id="7" author="any_author_name">
         <insert tableName="users" dbms="postgresql">
             <column name="username" value="admin"/>
-            <column name="password" value="password"/>
+            <column name="password" value="$2a$10$FSUP03hcKkm1SLfVGxmk9uOkPBZaXZ72bPjTogamhwQfyf/4RPh4e"/>
             <column name="email" value="admin@mail.com"/>
             <column name="first_name" value="TEST_NAME"/>
             <column name="last_name" value="TEST_LAST_NAME"/>

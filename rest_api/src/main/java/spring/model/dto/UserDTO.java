@@ -14,7 +14,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class UserDTO {
     @NotBlank
-    @Size(min = 3, message = "size must be at least 3 symbols")
+    @Size(min = 4, message = "size must be at least 3 symbols")
     @UniqueUsername(message = "user name is not unique")
     String username;
+    String password;
+    String email;
+    String firstName;
+    String lastName;
 }
