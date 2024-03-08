@@ -7,7 +7,7 @@ import spring.model.Payment;
 import spring.model.User;
 import spring.model.enums.Gender;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Data

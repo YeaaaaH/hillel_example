@@ -16,7 +16,7 @@ import spring.security.jwt.TokenProvider;
 import spring.security.model.UserDetailsImpl;
 import spring.service.UserService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 

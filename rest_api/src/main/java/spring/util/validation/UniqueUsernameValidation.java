@@ -2,8 +2,8 @@ package spring.util.validation;
 
 import spring.repository.UserRepository;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueUsernameValidation implements ConstraintValidator<UniqueUsername, String> {
     private final UserRepository userRepository;

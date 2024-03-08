@@ -1,5 +1,6 @@
 package spring.service;
 
+import example.logger.aspect.Loggable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +25,7 @@ public class UserService implements UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
+    @Loggable
     public User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
