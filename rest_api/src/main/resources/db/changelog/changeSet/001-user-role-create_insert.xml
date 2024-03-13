@@ -69,20 +69,19 @@
     </changeSet>
 
     <changeSet id="7" author="any_author_name">
-        <insert tableName="users" dbms="postgresql">
+        <insert tableName="users">
             <column name="username" value="admin"/>
             <column name="password" value="$2a$10$FSUP03hcKkm1SLfVGxmk9uOkPBZaXZ72bPjTogamhwQfyf/4RPh4e"/>
             <column name="email" value="admin@mail.com"/>
             <column name="first_name" value="TEST_NAME"/>
             <column name="last_name" value="TEST_LAST_NAME"/>
-            <column name="created_on" valueDate="CURRENT_TIMESTAMP"/>
         </insert>
     </changeSet>
 
     <changeSet id="8" author="any_author_name">
         <insert tableName="user_roles">
-            <column name="role_id" value="1"/>
-            <column name="user_id" value="1"/>
+            <column name="role_id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="1"/>
         </insert>
     </changeSet>
 

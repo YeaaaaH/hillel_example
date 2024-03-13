@@ -10,18 +10,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/payment")
-public class Paymentcontroller {
+public class PaymentController {
     private PaymentRepository paymentRepository;
 
-    public Paymentcontroller(PaymentRepository paymentRepository) {
+    public PaymentController(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
-
-//    @PostMapping
-//    public ResponseEntity<Long> createPayment(@RequestBody PaymentDTO payment) {
-//        Long id = paymentRepository.createPayment(payment);
-//        return new ResponseEntity<>(id, HttpStatus.CREATED);
-//    }
 
     @GetMapping
     public ResponseEntity<List<Payment>> getAllPayments() {
