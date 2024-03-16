@@ -1,10 +1,13 @@
 package spring.security.filter;
 
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import spring.exception.JwtTokenException;
 import spring.security.jwt.TokenProvider;
 
 import jakarta.servlet.FilterChain;
@@ -12,6 +15,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static spring.util.handler.ResponseHandler.buildResponse;
 
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
@@ -39,8 +44,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                         tokenProvider.getAuthoritiesFromToken(decodedJWT));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
+            } catch (SignatureVerificationException exception) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                buildResponse(response, new JwtTokenException("TOKEN_DECLARATION_IS_WRONG"));
+            } catch (TokenExpiredException expiredException) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                buildResponse(response, new TokenExpiredException("TOKEN_IS_EXPIRED"));
             } catch (Exception exception) {
-                System.out.println(exception.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                buildResponse(response, "You are not authenticated");
             }
         }
     }
