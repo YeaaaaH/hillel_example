@@ -3,6 +3,7 @@ package spring.security.filter;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             try {
-                String authHeader = request.getHeader("Authorization");
+                String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                 DecodedJWT decodedJWT = tokenProvider.resolveToken(authHeader);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         decodedJWT.getSubject(),

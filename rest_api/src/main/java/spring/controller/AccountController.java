@@ -1,14 +1,17 @@
 package spring.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import spring.model.Account;
-import spring.model.Payment;
 import spring.model.dto.AccountDTO;
 import spring.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/account")
@@ -24,12 +27,6 @@ public class AccountController {
     public Account getAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id);
     }
-//
-//    @RequestMapping(value = "/{id}/payments", method = RequestMethod.GET)
-//    public ResponseEntity<List<Payment>> getPaymentsByAccountById(@PathVariable Long id) {
-//        List<Payment> payments = accountService.getPaymentsByAccountId(id);
-//        return new ResponseEntity<>(payments, HttpStatus.OK);
-//    }
 
     @PostMapping
     public ResponseEntity<Long> createAccount(@RequestBody AccountDTO account) {

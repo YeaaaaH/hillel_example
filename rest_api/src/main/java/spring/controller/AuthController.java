@@ -23,12 +23,12 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping("/signin")
+    @PostMapping(value = "/signin", produces = "application/json")
     public ResponseEntity<SingInResponseDTO> signin(@RequestBody SignInRequestDTO requestDTO) {
         return new ResponseEntity<>(authService.signin(requestDTO), HttpStatus.OK);
     }
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", produces = "application/json")
     public ResponseEntity<Long> signup(@Valid @RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(authService.signup(userDTO), HttpStatus.CREATED);
     }
