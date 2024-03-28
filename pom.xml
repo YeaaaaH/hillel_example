@@ -12,6 +12,7 @@
         <module>persistance_layer</module>
         <module>rest_api</module>
         <module>logger-starter</module>
+        <module>maill</module>
     </modules>
 
     <properties>
