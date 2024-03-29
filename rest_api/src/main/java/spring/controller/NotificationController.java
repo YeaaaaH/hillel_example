@@ -19,6 +19,7 @@ public class NotificationController {
 
     @PostMapping("/mail")
     public ResponseEntity<String> signup(@Valid @RequestBody String message) {
+        //json object
         kafkaTemplate.send("testTopic", message);
         return new ResponseEntity<>("message: \n" + message + "\nsent succesfully", HttpStatus.OK);
     }

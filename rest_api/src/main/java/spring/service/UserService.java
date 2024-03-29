@@ -43,6 +43,7 @@ public class UserService implements UserDetailsService {
         user.setFirstName(userDTO.getFirstName());
         Role role = roleRepository.findByName("CLIENT");
         user.setRoles(List.of(role));
+        //kafkaTemplate.send()
         return userRepository.save(user).getId();
     }
 
