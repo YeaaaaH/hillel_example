@@ -1,6 +1,5 @@
 package spring.kafka;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import spring.kafka.event.NotificationEvent;
@@ -8,9 +7,9 @@ import spring.kafka.event.NotificationEvent;
 @Component
 public class MessageProducer {
 
-    private final KafkaTemplate<String, NotificationEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public MessageProducer(KafkaTemplate<String, NotificationEvent> kafkaTemplate) {
+    public MessageProducer(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

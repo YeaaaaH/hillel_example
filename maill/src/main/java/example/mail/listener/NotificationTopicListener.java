@@ -23,7 +23,7 @@ public class NotificationTopicListener {
             topics = "${spring.kafka.topic.name}"
     )
     public void consumeNotificationEvents(@Payload NotificationEvent event) {
-        logger.info("Received a message contains a notification information with reciever {}", event.getNotificationReciever());
+        logger.info("Received a message contains a notification information with reciever {} and message: {}", event.getNotificationReciever(), event.getMessage());
         mailSender.sendMail(event.getNotificationReciever(), event.getMessage());
     }
 }
